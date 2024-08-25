@@ -1,4 +1,4 @@
-FROM golang:1.21.0
+FROM golang:1.21.3
 
 WORKDIR /app
 
@@ -8,6 +8,8 @@ RUN go mod download
 
 COPY *.go *.db ./
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /my_app
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 
-CMD ["/my_app"]
+RUN CGO_ENABLED=$CGO_ENABLED GOOS=$GOOS GOARCH=$GOARCH go build -o /tracker-app
+
+CMD ["/tracker-app"]
